@@ -1,0 +1,5 @@
+if SHIELD_NYX_LEFT
+# Name that shows over USB/BLE (≤15 chars)
+config ZMK_KEYBOARD_NAME
+    default "Nyx L"
+endif

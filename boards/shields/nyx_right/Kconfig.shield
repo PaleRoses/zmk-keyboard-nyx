@@ -1,0 +1,3 @@
+# nyx_right shield marker
+config SHIELD_NYX_RIGHT
+    def_bool $(shields_list_contains,nyx_right)

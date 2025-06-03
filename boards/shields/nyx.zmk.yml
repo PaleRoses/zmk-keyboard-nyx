@@ -1,0 +1,13 @@
+file_format: "1"
+id: nyx # canonical board ID
+name: Nyx # marketing / display name
+type: shield
+url: https://github.com/PaleRoses/nyx-hardware # repo or docs page
+requires: [nice_nano_v2] # core MCU board
+exposes: [i2c_oled] # list any header the user must provide (optional)
+features:
+  - keys
+  - pointing_device # because of the trackballs
+siblings:
+  - nyx_left
+  - nyx_right

@@ -1,0 +1,37 @@
+/* Stub overlay for Nyx split – RIGHT half */
+/* Replace row-/col-gpios and matrix size when known. */
+
+#include <dt-bindings/zmk/matrix_transform.h>
+
+&gpio0 { status = "okay"; };   /* ensures port is enabled on some boards */
+
+ / {
+    /* ---------- key scan ---------- */
+    kscan0: kscan0 {
+        compatible = "zmk,kscan-gpio-matrix";
+        diode-direction = "row2col";
+        row-gpios = < &gpio0 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN) >; /* TODO real rows */
+        col-gpios = < &gpio0 1 GPIO_ACTIVE_HIGH >;                   /* TODO real cols */
+    };
+
+    /* ---------- matrix transform ---------- */
+    default_transform: matrix_xform {
+        compatible = "zmk,matrix-transform";
+        rows = <1>;      /* update when you know real count */
+        columns = <1>;   /* update when you know real count */
+        map = < RC(0,0) >;  /* expand to full map later */
+    };
+
+    /* ---------- physical layout wrapper ---------- */
+    physical_layout0: phys0 {
+        compatible = "zmk,physical-layout";
+        display-name = "Nyx default (right)";
+        kscan = <&kscan0>;
+        transform = <&default_transform>;
+    };
+
+    chosen {
+        zmk,kscan = &kscan0;
+        zmk,physical-layout = &physical_layout0;
+    };
+};
