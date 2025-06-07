@@ -2,29 +2,32 @@
  * Copyright (c) 2024 The ZMK Contributors
  * SPDX-License-Identifier: MIT
  *
- * Nyx Split Keyboard – Right Half Overlay  (updated column pins)
- * ==============================================================
+ * Nyx Split Keyboard - Right Half Overlay
+ * =======================================
  * This overlay configures the right (peripheral) half of the Nyx split keyboard.
  * It extends the shared nyx.dtsi configuration with right‑specific settings.
  *
- * Hardware:  nice!nano v2 (nRF52840)
- * Role:      Peripheral (scans keys and sends to central via BLE)
- * Matrix:    Columns 6‑11 (of 0‑11 total)
- *
- * Column‑to‑pin map (right half, **updated**):
- *   C6 → P0.08   C7 → P0.17   C8 → P0.20
- *   C9 → P0.22   C10 → P0.24  C11 → P1.00
+ * Hardware: nice!nano v2
+ * Role: Peripheral (scans keys and sends to central via BLE)
+ * Matrix: Columns 6‑11 (of 0‑11 total)
  */
 
 #include "nyx.dtsi"
 
-/* ──────────────────────────────
- * Column GPIO Configuration
- * ──────────────────────────────
+/* Column GPIO Configuration
+ * =========================
  * Define only the column pins for the right half.
  * Row pins are inherited from nyx.dtsi.
- *
- * Logical column numbers 6‑11 correspond to physical columns 0‑5 on this MCU.
+ * 
+ * Pin mapping for right half columns (UPDATED):
+ * C6:  P0.08 - Column 6  (leftmost on right half)
+ * C7:  P0.17 - Column 7
+ * C8:  P0.20 - Column 8
+ * C9:  P0.22 - Column 9
+ * C10: P0.24 - Column 10
+ * C11: P1.00 - Column 11 (rightmost)
+ * 
+ * Note: These map to logical columns 6‑11 in the matrix transform.
  */
 &kscan0 {
     col-gpios = <&gpio0  8 GPIO_ACTIVE_HIGH>,   /* C6:  P0.08 */
@@ -35,12 +38,13 @@
                 <&gpio1  0 GPIO_ACTIVE_HIGH>;   /* C11: P1.00 */
 };
 
-/* ──────────────────────────────
- * Root devicetree additions
- * ──────────────────────────────
- * Blue status LED on P1.06 (active‑low) and optional battery monitor.
- */
-&{/} {
+/* Root devicetree additions for right half */
+/ {
+    /* Status LED Configuration
+     * ========================
+     * The nice!nano v2 has a blue LED on P1.06 (active low).
+     * On the peripheral side, this typically indicates BLE connection status.
+     */
     leds {
         compatible = "gpio-leds";
         status_led: led_0 {
@@ -49,43 +53,61 @@
         };
     };
 
-    /* Matrix transform override: add 6‑column offset for this half */
+    /* Matrix Transform Override
+     * ========================
+     * The right half uses a column offset to map its physical columns (0‑5)
+     * to logical columns (6‑11) in the unified keymap.
+     * This is critical for proper key mapping in split configurations.
+     */
     default_transform: keymap_transform {
         compatible = "zmk,matrix-transform";
-        columns    = <12>;   /* total columns across both halves */
-        rows       = <7>;    /* total rows */
-        col-offset = <6>;    /* map physical 0‑5 → logical 6‑11 */
-
+        columns = <12>;  /* Total columns across both halves */
+        rows = <7>;      /* Total rows (same on both halves) */
+        
+        /* Column offset for right half
+         * This tells ZMK that physical columns 0‑5 on this half
+         * should be treated as logical columns 6‑11 in the keymap
+         */
+        col-offset = <6>;
+        
+        /* Right half physical matrix mapping
+         * Physical positions 0‑41 map to logical positions 42‑83
+         * The map below shows the right half's portion of the full matrix
+         */
         map = <
-            /* Row 0 – logical 6‑11 */
-            RC(0,6) RC(0,7) RC(0,8) RC(0,9) RC(0,10) RC(0,11)
-            /* Row 1 – logical 18‑23 */
-            RC(1,6) RC(1,7) RC(1,8) RC(1,9) RC(1,10) RC(1,11)
-            /* Row 2 – logical 30‑35 */
-            RC(2,6) RC(2,7) RC(2,8) RC(2,9) RC(2,10) RC(2,11)
-            /* Row 3 – logical 42‑47 */
-            RC(3,6) RC(3,7) RC(3,8) RC(3,9) RC(3,10) RC(3,11)
-            /* Row 4 – logical 54‑59 */
-            RC(4,6) RC(4,7) RC(4,8) RC(4,9) RC(4,10) RC(4,11)
-            /* Row 5 – logical 66‑71 */
-            RC(5,6) RC(5,7) RC(5,8) RC(5,9) RC(5,10) RC(5,11)
-            /* Row 6 – logical 78‑83 */
-            RC(6,6) RC(6,7) RC(6,8) RC(6,9) RC(6,10) RC(6,11)
+            /* Row 0 - Positions 6‑11  */
+            RC(0,6)  RC(0,7)  RC(0,8)  RC(0,9)  RC(0,10) RC(0,11)
+            /* Row 1 - Positions 18‑23 */
+            RC(1,6)  RC(1,7)  RC(1,8)  RC(1,9)  RC(1,10) RC(1,11)
+            /* Row 2 - Positions 30‑35 */
+            RC(2,6)  RC(2,7)  RC(2,8)  RC(2,9)  RC(2,10) RC(2,11)
+            /* Row 3 - Positions 42‑47 */
+            RC(3,6)  RC(3,7)  RC(3,8)  RC(3,9)  RC(3,10) RC(3,11)
+            /* Row 4 - Positions 54‑59 */
+            RC(4,6)  RC(4,7)  RC(4,8)  RC(4,9)  RC(4,10) RC(4,11)
+            /* Row 5 - Positions 66‑71 */
+            RC(5,6)  RC(5,7)  RC(5,8)  RC(5,9)  RC(5,10) RC(5,11)
+            /* Row 6 - Positions 78‑83 */
+            RC(6,6)  RC(6,7)  RC(6,8)  RC(6,9)  RC(6,10) RC(6,11)
         >;
     };
 };
 
-/* ──────────────────────────────
- * Battery voltage divider (optional)
- * ────────────────────────────── */
-&adc { status = "okay"; };
+/* Battery voltage divider configuration (optional)
+ * ===============================================
+ * The peripheral side can also monitor its own battery.
+ * Configuration is identical to the central side.
+ */
+&adc {
+    status = "okay";
+};
 
-&{/} {
+/ {
     vbatt: vbatt {
-        compatible   = "zmk,battery-voltage-divider";
-        label        = "BATTERY";
-        io-channels  = <&adc 2>;      /* AIN2 → P0.04 */
-        output-ohms  = <2000000>;     /* 2 MΩ */
-        full-ohms    = <2806000>;     /* 2 M + 806 kΩ */
+        compatible = "zmk,battery-voltage-divider";
+        label = "BATTERY";
+        io-channels = <&adc 2>;  /* AIN2 */
+        output-ohms = <2000000>; /* 2M ohm */
+        full-ohms = <(2000000 + 806000)>; /* 2M + 806K */
     };
 };
