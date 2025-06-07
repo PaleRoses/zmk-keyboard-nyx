@@ -1,27 +1,23 @@
-/ {
-    chosen {
-        zmk,keyboard = &kscan0;
-    };
-};
+/* Central (left) half — nice!nano v2 */
+#include "nyx.dtsi"
 
 &kscan0 {
-    compatible = "zmk,kscan-gpio-matrix";
-    poll-period-ms = <1>;
+    /* 6 columns, active‑high */
+    col-gpios = <&gpio0  2 GPIO_ACTIVE_HIGH>,   /* C0  P0.02 */
+                <&gpio0  3 GPIO_ACTIVE_HIGH>,   /* C1  P0.03 */
+                <&gpio0 28 GPIO_ACTIVE_HIGH>,   /* C2  P0.28 */
+                <&gpio0 29 GPIO_ACTIVE_HIGH>,   /* C3  P0.29 */
+                <&gpio0 31 GPIO_ACTIVE_HIGH>,   /* C4  P0.31 */
+                <&gpio1  3 GPIO_ACTIVE_HIGH>;   /* C5  P1.03 */
+    col-offset = <0>;                           /* logical columns 0‑5 */
+};
 
-    /* Rows 0‑4 (shared across halves) */
-    row-gpios = < &gpio1 11 (GPIO_PULL_UP | GPIO_ACTIVE_LOW) >
-                < &gpio1 12 (GPIO_PULL_UP | GPIO_ACTIVE_LOW) >
-                < &gpio1 13 (GPIO_PULL_UP | GPIO_ACTIVE_LOW) >
-                < &gpio1 14 (GPIO_PULL_UP | GPIO_ACTIVE_LOW) >
-                < &gpio1 15 (GPIO_PULL_UP | GPIO_ACTIVE_LOW) >;
+/* Central role & optional status LED */
+&zmk_board {
+    zmk,split-role = "central";
 
-    /* Columns 0‑5 — LEFT half only */
-    col-gpios = < &gpio0 29 GPIO_ACTIVE_HIGH >
-                < &gpio0 31 GPIO_ACTIVE_HIGH >
-                < &gpio0 2  GPIO_ACTIVE_HIGH >
-                < &gpio0 3  GPIO_ACTIVE_HIGH >
-                < &gpio0 28 GPIO_ACTIVE_HIGH >
-                < &gpio0 30 GPIO_ACTIVE_HIGH >;
-
-    diode-direction = <2>;          /* COL2ROW */
+    status_led: status_led {
+        gpios = <&gpio1 6 GPIO_ACTIVE_LOW>;     /* P1.06 — blue LED on nice!nano */
+        label = "STAT_LED";
+    };
 };

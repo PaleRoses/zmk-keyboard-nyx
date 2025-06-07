@@ -1,90 +1,261 @@
-/* =========================================================================================================
- * Nyx Split Keyboard (7 × 12) – Keymap with In‑file ASCII Visuals
- * ---------------------------------------------------------------------------------------------------------
- * Legend
- *   ·  = physically empty switch position (unused hole)
- *   >1 = momentary layer‑1 switch (MO 1)
- *   >2 = momentary layer‑2 switch (MO 2)
- *   ⇧  = held modifier (LSHFT/RSFT etc.) – shown textually in the table
+/*
+ * Copyright (c) 2024 The ZMK Contributors
+ * SPDX-License-Identifier: MIT
  *
- * Default Layer  (Layer 0)
- * ┌────┬────┬────┬────┬────┬────┬────────┬────┬────┬────┬────┬────┬────┐
- * │ESC │ 1  │ 2  │ 3  │ 4  │ 5  │        │ 6  │ 7  │ 8  │ 9  │ 0  │ =  │
- * ├────┼────┼────┼────┼────┼────┤        ├────┼────┼────┼────┼────┼────┤
- * │TAB │ X  │ F  │ L  │ K  │ Z  │        │ P  │ G  │ O  │ U  │ /  │ ,  │
- * ├────┼────┼────┼────┼────┼────┤        ├────┼────┼────┼────┼────┼────┤
- * │ -  │ N  │ S  │ H  │ T  │ M  │        │ Y  │ C  │ A  │ E  │ I  │ \\ │
- * ├────┼────┼────┼────┼────┼────┤        ├────┼────┼────┼────┼────┼────┤
- * │CTRL│ B  │ V  │ J  │ D  │ Q  │        │ '  │ W  │ ,  │ .  │Home│End │
- * ├────┼────┼────┼────┼────┼────┼────────┼────┼────┼────┼────┼────┼────┤
- * │  · │  · │ [  │ ]  │  · │  · │        │  · │  · │ ;  │Alt │  · │  · │
- * ├────┼────┼────┼────┼────┼────┤        ├────┼────┼────┼────┼────┼────┤
- * │  · │  · │  · │Enter│ R │⇧L  │        │ ⇧R │Spc │Del │  · │  · │  · │
- * ├────┼────┼────┼────┼────┼────┤        ├────┼────┼────┼────┼────┼────┤
- * │  · │  · │  · │ >1 │GUI │ >2 │        │ >2 │GUI │ >1 │  · │  · │  · │
- * └────┴────┴────┴────┴────┴────┴────────┴────┴────┴────┴────┴────┴────┘
+ * Nyx Split Keyboard - Keymap Configuration
+ * =========================================
+ * This keymap implements a custom ergonomic layout optimized for the Nyx 7×12 split keyboard.
+ * The layout prioritizes thumb usage, symmetric layer access, and comfortable typing patterns.
  *
- * NAV Layer  (Layer 2) – arrows only (other keys &none)
- * ┌────┬────┬────┬────┬────┬────┬────────┬────┬────┬────┬────┬────┬────┐
- * │ ·  │ ·  │ ·  │ ·  │ ·  │ ·  │        │ ·  │ ·  │ ·  │ ·  │ ·  │ ·  │
- * ├────┼────┼────┼────┼────┼────┤        ├────┼────┼────┼────┼────┼────┤
- * │ ·  │ ·  │ ·  │ ↑  │ ·  │ ·  │        │ ·  │ ·  │ ·  │ ·  │ ·  │ ·  │
- * ├────┼────┼────┼────┼────┼────┤        ├────┼────┼────┼────┼────┼────┤
- * │ ·  │ ·  │ ←  │ ↓  │ →  │ ·  │        │ ·  │ ·  │ ·  │ ·  │ ·  │ ·  │
- * └────┴────┴────┴────┴────┴────┴────────┴────┴────┴────┴────┴────┴────┘
- * ---------------------------------------------------------------------------------------------------------
- * Goals
- *  • Keep thumbs busy: Space, Shift, Enter, momentary layers all within thumb reach.
- *  • Symmetric layer‑switch placement so either thumb can access FN or NAV.
- *  • Clear visual gap between halves mirrors physical split.
- *  • Reserved blanks (`·`) allow painless future expansion (media, macros, RGB etc.).
- * =========================================================================================================
+ * Layout Philosophy:
+ * - Custom alphabetic layout (not QWERTY) optimized for English text frequency
+ * - Thumb-centric design with Space, Shift, Enter, and layer keys on thumb clusters
+ * - Symmetric layer switching allowing either hand to access all layers
+ * - Reserved positions (using &none) for future expansion
+ *
+ * Physical Layout Overview:
+ * ┌─────────────────────────────────────────┐         ┌─────────────────────────────────────────┐
+ * │          LEFT HAND (42 keys)            │         │          RIGHT HAND (42 keys)           │
+ * │     6 columns × 7 rows                  │         │     6 columns × 7 rows                  │
+ * │     Columns 0-5 in matrix               │         │     Columns 6-11 in matrix              │
+ * └─────────────────────────────────────────┘         └─────────────────────────────────────────┘
  */
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
-#include <dt-bindings/zmk/layers.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/outputs.h>
+
+/* Layer Definitions
+ * =================
+ * We use numeric constants for better readability in layer-tap and momentary bindings
+ */
+#define DEFAULT 0
+#define FN      1
+#define NAV     2
+#define SYSTEM  3
 
 / {
+    /* Conditional Layers
+     * ==================
+     * When both FN and NAV are active, automatically activate SYSTEM layer
+     * This provides access to bluetooth, output selection, and system controls
+     */
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+        tri_layer {
+            if-layers = <FN NAV>;
+            then-layer = <SYSTEM>;
+        };
+    };
+
+    /* Keymap Configuration
+     * ===================
+     * The keymap defines what each physical key does in each layer.
+     * The binding order must match the matrix transform mapping exactly.
+     */
     keymap {
         compatible = "zmk,keymap";
 
+        /* Layer 0: Default (Base) Layer
+         * =============================
+         * Custom alphabetic layout with numbers on top row
+         * 
+         * ┌─────┬─────┬─────┬─────┬─────┬─────┐         ┌─────┬─────┬─────┬─────┬─────┬─────┐
+         * │ ESC │  1  │  2  │  3  │  4  │  5  │         │  6  │  7  │  8  │  9  │  0  │  =  │
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │ TAB │  X  │  F  │  L  │  K  │  Z  │         │  P  │  G  │  O  │  U  │  /  │  ,  │
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │  -  │  N  │  S  │  H  │  T  │  M  │         │  Y  │  C  │  A  │  E  │  I  │  \  │
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │CTRL │  B  │  V  │  J  │  D  │  Q  │         │  '  │  W  │  ,  │  .  │Home │ End │
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │  ·  │  ·  │  [  │  ]  │  ·  │  ·  │         │  ·  │  ·  │  ;  │ Alt │  ·  │  ·  │
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │  ·  │  ·  │  ·  │Enter│  R  │Shift│         │Shift│Space│ Del │  ·  │  ·  │  ·  │
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │  ·  │  ·  │  ·  │ FN  │ GUI │ NAV │         │ NAV │ GUI │ FN  │  ·  │  ·  │  ·  │
+         * └─────┴─────┴─────┴─────┴─────┴─────┘         └─────┴─────┴─────┴─────┴─────┴─────┘
+         */
         default_layer {
+            label = "BASE";
             bindings = <
-            /* row0 */ &kp ESC  &kp N1  &kp N2   &kp N3   &kp N4   &kp N5   &kp N6   &kp N7   &kp N8   &kp N9   &kp N0   &kp EQUAL
-            /* row1 */ &kp TAB  &kp X   &kp F    &kp L    &kp K    &kp Z    &kp P    &kp G    &kp O    &kp U    &kp SLASH &kp COMMA
-            /* row2 */ &kp MINUS &kp N  &kp S    &kp H    &kp T    &kp M    &kp Y    &kp C    &kp A    &kp E    &kp I    &kp BACKSLASH
-            /* row3 */ &kp LCTRL &kp B  &kp V    &kp J    &kp D    &kp Q    &kp APOSTROPHE &kp W &kp COMMA &kp DOT   &kp HOME &kp END
-            /* row4 */ &none     &none  &kp LBKT &kp RBKT &none    &none    &none    &none    &kp SEMICOLON &kp LALT &none    &none
-            /* row5 */ &none     &none  &none    &kp ENTER &kp R   &kp LSHIFT &kp RSHIFT &kp SPACE &kp DELETE &none   &none    &none
-            /* row6 */ &none     &none  &none    &mo 1     &kp LGUI &mo 2    &mo 2    &kp RGUI &mo 1    &none   &none   &none
+                /* Row 0 - Numbers */
+                &kp ESC    &kp N1    &kp N2      &kp N3      &kp N4     &kp N5          &kp N6         &kp N7      &kp N8       &kp N9      &kp N0       &kp EQUAL
+                /* Row 1 - Upper Alpha */
+                &kp TAB    &kp X     &kp F       &kp L       &kp K      &kp Z           &kp P          &kp G       &kp O        &kp U       &kp SLASH    &kp COMMA
+                /* Row 2 - Home Row */
+                &kp MINUS  &kp N     &kp S       &kp H       &kp T      &kp M           &kp Y          &kp C       &kp A        &kp E       &kp I        &kp BACKSLASH
+                /* Row 3 - Lower Alpha */
+                &kp LCTRL  &kp B     &kp V       &kp J       &kp D      &kp Q           &kp APOSTROPHE &kp W       &kp COMMA    &kp DOT     &kp HOME     &kp END
+                /* Row 4 - Bottom Row */
+                &none      &none     &kp LBKT    &kp RBKT    &none      &none           &none          &none       &kp SEMI     &kp LALT    &none        &none
+                /* Row 5 - Thumb Row 1 */
+                &none      &none     &none       &kp ENTER   &kp R      &kp LSHIFT      &kp RSHIFT     &kp SPACE   &kp DELETE   &none       &none        &none
+                /* Row 6 - Thumb Row 2 */
+                &none      &none     &none       &mo FN      &kp LGUI   &mo NAV         &mo NAV        &kp RGUI    &mo FN       &none       &none        &none
             >;
         };
 
-        layer_fn {
+        /* Layer 1: Function Layer
+         * =======================
+         * Function keys, media controls, and additional symbols
+         * 
+         * ┌─────┬─────┬─────┬─────┬─────┬─────┐         ┌─────┬─────┬─────┬─────┬─────┬─────┐
+         * │  `  │ F1  │ F2  │ F3  │ F4  │ F5  │         │ F6  │ F7  │ F8  │ F9  │ F10 │ F11 │
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │ ___ │ XXX │ XXX │ XXX │ XXX │ XXX │         │PgUp │ XXX │ XXX │ XXX │ XXX │ F12 │
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │ ___ │ XXX │ XXX │ XXX │ XXX │ XXX │         │PgDn │ XXX │ XXX │ XXX │ XXX │PrtSc│
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │ ___ │ XXX │ XXX │ XXX │ XXX │ XXX │         │ XXX │ XXX │ XXX │ XXX │ XXX │Pause│
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │         │ XXX │ XXX │ XXX │ ___ │ XXX │ XXX │
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │ XXX │ XXX │ XXX │ ___ │ XXX │ ___ │         │ ___ │ ___ │ ___ │ XXX │ XXX │ XXX │
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │ XXX │ XXX │ XXX │ ___ │ ___ │ XXX │         │ XXX │ ___ │ ___ │ XXX │ XXX │ XXX │
+         * └─────┴─────┴─────┴─────┴─────┴─────┘         └─────┴─────┴─────┴─────┴─────┴─────┘
+         * 
+         * Legend: ___ = transparent (pass-through), XXX = blocked
+         */
+        function_layer {
             label = "FN";
             bindings = <
-                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+                /* Row 0 - Function Keys */
+                &kp GRAVE  &kp F1    &kp F2      &kp F3      &kp F4     &kp F5          &kp F6         &kp F7      &kp F8       &kp F9      &kp F10      &kp F11
+                /* Row 1 */
+                &trans     &none     &none       &none       &none      &none           &kp PG_UP      &none       &none        &none       &none        &kp F12
+                /* Row 2 */
+                &trans     &none     &none       &none       &none      &none           &kp PG_DN      &none       &none        &none       &none        &kp PSCRN
+                /* Row 3 */
+                &trans     &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &kp PAUSE_BREAK
+                /* Row 4 */
+                &none      &none     &none       &none       &none      &none           &none          &none       &none        &trans      &none        &none
+                /* Row 5 */
+                &none      &none     &none       &trans      &none      &trans          &trans         &trans      &trans       &none       &none        &none
+                /* Row 6 */
+                &none      &none     &none       &trans      &trans     &none           &none          &trans      &trans       &none       &none        &none
             >;
         };
 
-        layer_nav {
+        /* Layer 2: Navigation Layer
+         * =========================
+         * Arrow keys, navigation cluster, and cursor controls
+         * 
+         * ┌─────┬─────┬─────┬─────┬─────┬─────┐         ┌─────┬─────┬─────┬─────┬─────┬─────┐
+         * │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │         │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │ XXX │ XXX │ XXX │  ↑  │ XXX │ XXX │         │Home │PgDn │PgUp │ End │ XXX │ XXX │
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │ XXX │ XXX │  ←  │  ↓  │  →  │ XXX │         │  ←  │  ↓  │  ↑  │  →  │ XXX │ XXX │
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │ ___ │ XXX │ XXX │ XXX │ XXX │ XXX │         │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │         │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │ XXX │ XXX │ XXX │ ___ │ XXX │ ___ │         │ ___ │ ___ │ ___ │ XXX │ XXX │ XXX │
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │ XXX │ XXX │ XXX │ XXX │ ___ │ ___ │         │ ___ │ ___ │ XXX │ XXX │ XXX │ XXX │
+         * └─────┴─────┴─────┴─────┴─────┴─────┘         └─────┴─────┴─────┴─────┴─────┴─────┘
+         */
+        navigation_layer {
             label = "NAV";
             bindings = <
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &kp UP &none &none &none &none &none &none &none &none
-                &none &none &kp LEFT &kp DOWN &kp RIGHT &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
-                &none &none &none &none &none &none &none &none &none &none &none &none
+                /* Row 0 */
+                &none      &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
+                /* Row 1 - Navigation */
+                &none      &none     &none       &kp UP      &none      &none           &kp HOME       &kp PG_DN   &kp PG_UP    &kp END     &none        &none
+                /* Row 2 - Arrow Keys */
+                &none      &none     &kp LEFT    &kp DOWN    &kp RIGHT  &none           &kp LEFT       &kp DOWN    &kp UP       &kp RIGHT   &none        &none
+                /* Row 3 */
+                &trans     &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
+                /* Row 4 */
+                &none      &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
+                /* Row 5 */
+                &none      &none     &none       &trans      &none      &trans          &trans         &trans      &trans       &none       &none        &none
+                /* Row 6 */
+                &none      &none     &none       &none       &trans     &trans          &trans         &trans      &none        &none       &none        &none
+            >;
+        };
+
+        /* Layer 3: System Layer
+         * =====================
+         * Bluetooth controls, output selection, and system functions
+         * Activated by holding both FN and NAV layers simultaneously
+         * 
+         * ┌─────┬─────┬─────┬─────┬─────┬─────┐         ┌─────┬─────┬─────┬─────┬─────┬─────┐
+         * │BTCLR│ BT0 │ BT1 │ BT2 │ BT3 │ BT4 │         │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │         │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │         │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │ ___ │ XXX │ XXX │ XXX │ XXX │ XXX │         │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │         │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │ XXX │ XXX │ XXX │ ___ │ XXX │ ___ │         │ ___ │ ___ │ ___ │ XXX │ XXX │ XXX │
+         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
+         * │ XXX │ XXX │ XXX │ ___ │ ___ │ ___ │         │ ___ │ ___ │ ___ │ XXX │ XXX │ XXX │
+         * └─────┴─────┴─────┴─────┴─────┴─────┘         └─────┴─────┴─────┴─────┴─────┴─────┘
+         * 
+         * BT0-BT4: Bluetooth profiles for connecting multiple devices
+         * BTCLR: Clear current bluetooth profile
+         */
+        system_layer {
+            label = "SYSTEM";
+            bindings = <
+                /* Row 0 - Bluetooth Controls */
+                &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4    &none          &none       &none        &none       &none        &none
+                /* Row 1 */
+                &none      &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
+                /* Row 2 */
+                &none      &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
+                /* Row 3 */
+                &trans     &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
+                /* Row 4 */
+                &none      &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
+                /* Row 5 */
+                &none      &none     &none       &trans      &none      &trans          &trans         &trans      &trans       &none       &none        &none
+                /* Row 6 */
+                &none      &none     &none       &trans      &trans     &trans          &trans         &trans      &trans       &none       &none        &none
             >;
         };
     };
 };
+
+/* ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+ *                                        CONFIGURATION NOTES
+ * ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+ *
+ * EXTENDING THIS CONFIGURATION:
+ * 
+ * 1. Adding New Layers:
+ *    - Define a new layer block within the keymap section
+ *    - Update layer switching keys (&mo, &lt, &tog) as needed
+ *    - Consider the cognitive load of multiple layers
+ *
+ * 2. Customizing Behaviors:
+ *    - Add custom behaviors in a behaviors {} block
+ *    - Common customizations: tap-dance, hold-tap, combos
+ *    - Reference ZMK documentation for behavior parameters
+ *
+ * 3. Hardware Integration:
+ *    - RGB underglow: Add rgb_underglow configuration
+ *    - Encoders: Define encoder mappings per layer
+ *    - OLED displays: Configure display content and behavior
+ *
+ * 4. Optimization Tips:
+ *    - Use &trans to maintain key accessibility across layers
+ *    - Place frequently used keys on stronger fingers
+ *    - Consider hand alternation for common key sequences
+ *    - Test typing patterns with tools like MonkeyType
+ *
+ * TROUBLESHOOTING:
+ * - Ensure all rows have exactly 12 bindings (6 per side)
+ * - Check for missing semicolons in binding lists
+ * - Verify include files match your ZMK version
+ * - Use 'west build' with verbose flag for detailed errors
+ *
+ * ═══════════════════════════════════════════════════════════════════════════════════════════════════════ */
