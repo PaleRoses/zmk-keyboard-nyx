@@ -1,16 +1,27 @@
-/* Nyx right half overlay — peripheral
- * Lists six column GPIOs for columns 6‑11.
- */
-
-#include "nyx.dtsi"
-
 / {
-    &kscan0 {
-        col-gpios = <&gpio0 17 GPIO_ACTIVE_HIGH  /* C6 P0.17 */
-                      &gpio0 20 GPIO_ACTIVE_HIGH  /* C7 P0.20 */
-                      &gpio0 22 GPIO_ACTIVE_HIGH  /* C8 P0.22 */
-                      &gpio0 24 GPIO_ACTIVE_HIGH  /* C9 P0.24 */
-                      &gpio0 0  GPIO_ACTIVE_HIGH  /* C10 P0.00 */
-                      &gpio0 4  GPIO_ACTIVE_HIGH>; /* C11 P0.04 */
+    chosen {
+        zmk,keyboard = &kscan0;
     };
+};
+
+&kscan0 {
+    compatible = "zmk,kscan-gpio-matrix";
+    poll-period-ms = <1>;
+
+    /* Rows 0‑4 (shared across halves) */
+    row-gpios = < &gpio1 11 (GPIO_PULL_UP | GPIO_ACTIVE_LOW) >
+                < &gpio1 12 (GPIO_PULL_UP | GPIO_ACTIVE_LOW) >
+                < &gpio1 13 (GPIO_PULL_UP | GPIO_ACTIVE_LOW) >
+                < &gpio1 14 (GPIO_PULL_UP | GPIO_ACTIVE_LOW) >
+                < &gpio1 15 (GPIO_PULL_UP | GPIO_ACTIVE_LOW) >;
+
+    /* Columns 0‑5 — LEFT half only */
+    col-gpios = < &gpio0 29 GPIO_ACTIVE_HIGH >
+                < &gpio0 31 GPIO_ACTIVE_HIGH >
+                < &gpio0 2  GPIO_ACTIVE_HIGH >
+                < &gpio0 3  GPIO_ACTIVE_HIGH >
+                < &gpio0 28 GPIO_ACTIVE_HIGH >
+                < &gpio0 30 GPIO_ACTIVE_HIGH >;
+
+    diode-direction = <2>;          /* COL2ROW */
 };
