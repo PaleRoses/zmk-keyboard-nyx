@@ -1,0 +1,49 @@
+file_format: "1"
+# ──────────────────────────────────────────────────────────────────────────────
+# Nyx — a wireless, ergonomic split keyboard powered by twin nice!nano v2 MCUs.
+#  • 12 × 7 ortholinear matrix (6 columns per half)
+#  • Per‑half Li‑Po + on‑board charging
+#  • Hot‑swap sockets + low‑profile Choc support
+#  • Designed for ultra‑portable coding & creative workflows
+# ──────────────────────────────────────────────────────────────────────────────
+
+id: nyx
+name: "Nyx Split — 12×7 Wireless Ergonomic Keyboard"
+url: "https://github.com/yourname/nyx-split" # ← update with real repo/docs
+maintainer: "Rosalia <rosalia@example.com>"
+
+type: shield
+
+requires:
+  - pro_micro # Pro Micro footprint (nice!nano v2, XIAO BLE, etc.)
+
+features:
+  - keys # keyboard matrix
+  - split # two‑half split architecture
+  - wireless # BLE central/peripheral link
+  - battery # on‑board Li‑Po support
+
+matrix:
+  rows: 7
+  columns: 12
+
+mcus:
+  - nice_nano_v2
+
+siblings:
+  - nyx_left
+  - nyx_right
+
+description: |
+  **Nyx** is a minimalist, travel‑friendly ergonomic keyboard that pairs two
+  nice!nano v2 controllers over BLE for truly wireless typing. A compact 12×7
+  matrix keeps finger travel short, while hot‑swap sockets let you tailor the
+  feel with any low‑profile or MX‑compatible switch. Designed for night‑owl
+  coders and digital artists alike, Nyx fits neatly in a sling bag yet delivers
+  a full‑power layout tuned for speed, comfort, and creative flow.
+
+notes: |
+  * Left half advertises as BLE central (Nyx L); right half auto‑pairs as
+    peripheral (Nyx R).
+  * Default firmware exposes media keys, macro layers, and battery reporting.
+  * See the `docs/` folder for case STL files and assembly guide.

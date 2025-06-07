@@ -1,5 +1,36 @@
+# Nyx split keyboard Kconfig.defconfig
+# This file provides default configuration values when either half of the
+# Nyx shield (nyx_left or nyx_right) is selected during a ZMK build.
+#
+# • Enables split‑keyboard support on both halves.
+# • Sets the left half as the BLE/USB central controller.
+# • Gives each half a distinct advertised name so it is clear which half
+#   is flashed when connecting over USB or BLE.
+
+# -----------------------------------------------------------------------------
+# Enable split keyboard functionality for all Nyx builds
+config ZMK_SPLIT
+    default y
+
+# -----------------------------------------------------------------------------
+# Left half — acts as the central/controller
 if SHIELD_NYX_LEFT
-# Name that shows over USB/BLE (≤15 chars)
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
 config ZMK_KEYBOARD_NAME
+    # BLE/USB device name (≤16 chars recommended)
     default "Nyx L"
-endif
+
+endif # SHIELD_NYX_LEFT
+
+# -----------------------------------------------------------------------------
+# Right half — acts as the peripheral
+if SHIELD_NYX_RIGHT
+
+config ZMK_KEYBOARD_NAME
+    # BLE/USB device name (≤16 chars recommended)
+    default "Nyx R"
+
+endif # SHIELD_NYX_RIGHT
