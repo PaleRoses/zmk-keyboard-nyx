@@ -41,7 +41,7 @@
          * This requires pull-down resistors on rows when using active-high logic
          */
         diode-direction = "row2col";
-        sdfs
+        
         /* Row GPIO Configuration
          * ======================
          * These pins are shared between both keyboard halves.
