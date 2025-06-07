@@ -7,7 +7,46 @@
 
         default_layer {
             bindings = <
-                &kp NO      /* one placeholder key */
+                /* Row 0: Escape, 1, 2, 3, 4, 5 */
+                &kp ESC    &kp N1    &kp N2    &kp N3    &kp N4    &kp N5
+                /* Row 1: Tab, X, F, L, K, Z */
+                &kp TAB    &kp X     &kp F     &kp L     &kp K     &kp Z
+                /* Row 2: -, N, S, H, T, M */
+                &kp MINUS  &kp N     &kp S     &kp H     &kp T     &kp M
+                /* Row 3: Ctrl, B, V, J, D, Q */
+                &kp LCTRL  &kp B     &kp V     &kp J     &kp D     &kp Q
+                /* Row 4: [, ] */
+                                     &kp LBKT  &kp RBKT
+                /* Row 5: Enter, R, Shift */
+                                               &kp RET   &kp R     &kp LSHFT
+                /* Row 6: Layer1, Cmd/Win, Layer2 */
+                                               &mo 1     &kp LGUI  &mo 2
+            >;
+        };
+
+        layer_1 {
+            bindings = <
+                /* Layer 1: To be configured */
+                &trans &trans &trans &trans &trans &trans
+                &trans &trans &trans &trans &trans &trans
+                &trans &trans &trans &trans &trans &trans
+                &trans &trans &trans &trans &trans &trans
+                       &trans &trans
+                              &trans &trans &trans
+                              &trans &trans &trans
+            >;
+        };
+
+        layer_2 {
+            bindings = <
+                /* Layer 2: Navigation layer */
+                &trans &trans &trans &trans &trans &trans
+                &trans &trans &trans &kp UP    &trans &trans
+                &trans &trans &kp LEFT &kp DOWN &kp RIGHT &trans
+                &trans &trans &trans &trans &trans &trans
+                       &trans &trans
+                              &trans &trans &trans
+                              &trans &trans &trans
             >;
         };
     };

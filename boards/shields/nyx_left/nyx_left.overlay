@@ -1,19 +1,45 @@
-/* Skeleton overlay — replace row/col pins later */
+/* Nyx left half overlay with GPIO pins configured */
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
     kscan0: kscan0 {
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "row2col";
-        row-gpios = < &gpio0 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN) >; /* TODO: real pins */
-        col-gpios = < &gpio0 1 GPIO_ACTIVE_HIGH >;                   /* TODO: real pins */
+        row-gpios = <&gpio0 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
+                    <&gpio0 17 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
+                    <&gpio0 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
+                    <&gpio0 22 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
+                    <&gpio0 24 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
+                    <&gpio1 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,
+                    <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+        col-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>,
+                    <&gpio1 6 GPIO_ACTIVE_HIGH>,
+                    <&gpio0 9 GPIO_ACTIVE_HIGH>,
+                    <&gpio0 10 GPIO_ACTIVE_HIGH>,
+                    <&gpio1 11 GPIO_ACTIVE_HIGH>,
+                    <&gpio1 13 GPIO_ACTIVE_HIGH>;
     };
 
     default_transform: matrix_xform {
         compatible = "zmk,matrix-transform";
-        rows = <1>;   /* update when you know row count */
-        columns = <1>;/* update when you know column count */
-        map = < RC(0,0) >;  /* expand later */
+        rows = <7>;
+        columns = <6>;
+        map = <
+            /* Row 0: Escape, !, @, #, $, 🌊 */
+            RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4) RC(0,5)
+            /* Row 1: Tab, X, F, L, K, Z */
+            RC(1,0) RC(1,1) RC(1,2) RC(1,3) RC(1,4) RC(1,5)
+            /* Row 2: -, N, S, H, T, M */
+            RC(2,0) RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5)
+            /* Row 3: Ctrl, B, V, J, D, Q */
+            RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4) RC(3,5)
+            /* Row 4: [, ] */
+                            RC(4,2) RC(4,3)
+            /* Row 5: newline, R, Shift */
+                                    RC(5,3) RC(5,4) RC(5,5)
+            /* Row 6: altmode1, Cmd/Win, altmode2 */
+                                    RC(6,3) RC(6,4) RC(6,5)
+        >;
     };
 
     physical_layout0: phys0 {

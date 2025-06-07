@@ -1,4 +1,4 @@
 # build.yaml  (NOT under .github/)
 builds:
-  - shield: nyx_left  nice_nano_v2
-  - shield: nyx_right nice_nano_v2
+  - shield: nyx_left nice_nano_v2
+  # - shield: nyx_right nice_nano_v2  # Uncomment when right half is ready
