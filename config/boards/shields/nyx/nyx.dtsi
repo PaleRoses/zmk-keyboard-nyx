@@ -14,7 +14,7 @@
  * - Connection: Wireless BLE (left as central, right as peripheral)
  *
  * GPIO Pin Assignments:
- * - Rows (shared between both halves): P0.08, P0.17, P0.20, P0.22, P0.24, P1.00, P0.11
+ * - Rows (shared between both halves): See detailed mapping below
  * - Columns: Defined separately in left/right overlay files
  *
  * Important Notes:
@@ -31,6 +31,14 @@
      * The kscan node defines how the keyboard matrix is electrically scanned.
      * For split keyboards, row pins are defined here (shared between halves),
      * while column pins are defined in the per-half overlay files.
+     * 
+     * Pin Mapping Reference for nRF52840:
+     * ┌─────────────────┬────────────────┬─────────────────┐
+     * │   nRF Pin Name  │  GPIO Bank     │  GPIO Pin       │
+     * ├─────────────────┼────────────────┼─────────────────┤
+     * │   P0.00-P0.31   │    gpio0       │   0-31          │
+     * │   P1.00-P1.15   │    gpio1       │   0-15          │
+     * └─────────────────┴────────────────┴─────────────────┘
      */
     kscan0: kscan {
         compatible = "zmk,kscan-gpio-matrix";
@@ -47,17 +55,26 @@
          * These pins are shared between both keyboard halves.
          * The flag order is critical: GPIO_ACTIVE_HIGH must come first!
          * 
-         * Pin mapping for nice!nano v2:
-         * - gpio0: Pins P0.00 to P0.31
-         * - gpio1: Pins P1.00 to P1.15 (P1.xx = P0.(32+xx) in nRF notation)
+         * Row-to-Pin Mapping:
+         * ┌─────┬──────────┬─────────────┬──────────────────────────────┐
+         * │ Row │ nRF Pin  │ GPIO Config │ Physical Location            │
+         * ├─────┼──────────┼─────────────┼──────────────────────────────┤
+         * │ R0  │  P0.11   │ gpio0, 11   │ Top row (partial numbers)    │
+         * │ R1  │  P0.31   │ gpio0, 31   │ Numbers + upper alpha        │
+         * │ R2  │  P0.29   │ gpio0, 29   │ Upper alpha row              │
+         * │ R3  │  P0.02   │ gpio0, 2    │ Home row                     │
+         * │ R4  │  P1.15   │ gpio1, 15   │ Lower alpha + brackets       │
+         * │ R5  │  P1.13   │ gpio1, 13   │ Thumb cluster row 1          │
+         * │ R6  │  P1.11   │ gpio1, 11   │ Thumb cluster row 2          │
+         * └─────┴──────────┴─────────────┴──────────────────────────────┘
          */
-        row-gpios = <&gpio0 8  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* Row 0: P0.08 */
-                    <&gpio0 17 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* Row 1: P0.17 */
-                    <&gpio0 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* Row 2: P0.20 */
-                    <&gpio0 22 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* Row 3: P0.22 */
-                    <&gpio0 24 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* Row 4: P0.24 */
-                    <&gpio1 0  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* Row 5: P1.00 */
-                    <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;  /* Row 6: P0.11 */
+        row-gpios = <&gpio0 11 GPIO_ACTIVE_HIGH GPIO_PULL_DOWN>, /* R0: P0.11 */
+                    <&gpio0 31 GPIO_ACTIVE_HIGH GPIO_PULL_DOWN>, /* R1: P0.31 */
+                    <&gpio0 29 GPIO_ACTIVE_HIGH GPIO_PULL_DOWN>, /* R2: P0.29 */
+                    <&gpio0  2 GPIO_ACTIVE_HIGH GPIO_PULL_DOWN>, /* R3: P0.02 */
+                    <&gpio1 15 GPIO_ACTIVE_HIGH GPIO_PULL_DOWN>, /* R4: P1.15 */
+                    <&gpio1 13 GPIO_ACTIVE_HIGH GPIO_PULL_DOWN>, /* R5: P1.13 */
+                    <&gpio1 11 GPIO_ACTIVE_HIGH GPIO_PULL_DOWN>; /* R6: P1.11 */
         
         /* Column pins will be defined in the overlay files for each half
          * Left half: columns 0-5
@@ -70,6 +87,23 @@
      * This defines the logical key matrix layout and how physical switch positions
      * map to logical key positions in the keymap. The transform is essential for
      * split keyboards to correctly map keys from both halves into a unified layout.
+     * 
+     * Physical Matrix Layout (7×12):
+     * ╔═══════════════════════════════════════╤═══════════════════════════════════════╗
+     * ║          LEFT HALF (7×6)              │          RIGHT HALF (7×6)             ║
+     * ╟───────────────────────────────────────┼───────────────────────────────────────╢
+     * ║   COL0  COL1  COL2  COL3  COL4  COL5 │ COL6  COL7  COL8  COL9  COL10 COL11  ║
+     * ╠═══════════════════════════════════════╪═══════════════════════════════════════╣
+     * ║ R0 [ 0] [ 1] [ 2] [ 3] [ 4] [ 5]     │     [ 6] [ 7] [ 8] [ 9] [10] [11] R0 ║
+     * ║ R1 [12] [13] [14] [15] [16] [17]     │     [18] [19] [20] [21] [22] [23] R1 ║
+     * ║ R2 [24] [25] [26] [27] [28] [29]     │     [30] [31] [32] [33] [34] [35] R2 ║
+     * ║ R3 [36] [37] [38] [39] [40] [41]     │     [42] [43] [44] [45] [46] [47] R3 ║
+     * ║ R4 [48] [49] [50] [51] [52] [53]     │     [54] [55] [56] [57] [58] [59] R4 ║
+     * ║ R5 [60] [61] [62] [63] [64] [65]     │     [66] [67] [68] [69] [70] [71] R5 ║
+     * ║ R6 [72] [73] [74] [75] [76] [77]     │     [78] [79] [80] [81] [82] [83] R6 ║
+     * ╚═══════════════════════════════════════╧═══════════════════════════════════════╝
+     *                                         
+     * Key Position Formula: position = (row × 12) + column
      */
     default_transform: keymap_transform {
         compatible = "zmk,matrix-transform";
@@ -83,28 +117,17 @@
          * RC(row,col) maps a physical matrix position to the logical keymap.
          * The split happens at column 6: columns 0-5 are left, 6-11 are right.
          * This creates a contiguous 84-key logical layout from two 42-key halves.
-         *
-         * Visual representation of the logical layout:
-         * Left Half                    Right Half
-         * C0  C1  C2  C3  C4  C5   |   C6  C7  C8  C9  C10 C11
-         * R0: [ 0][ 1][ 2][ 3][ 4][ 5]   |   [ 6][ 7][ 8][ 9][10][11]
-         * R1: [12][13][14][15][16][17]   |   [18][19][20][21][22][23]
-         * R2: [24][25][26][27][28][29]   |   [30][31][32][33][34][35]
-         * R3: [36][37][38][39][40][41]   |   [42][43][44][45][46][47]
-         * R4: [48][49][50][51][52][53]   |   [54][55][56][57][58][59]
-         * R5: [60][61][62][63][64][65]   |   [66][67][68][69][70][71]
-         * R6: [72][73][74][75][76][77]   |   [78][79][80][81][82][83]
          */
         map = <
-            /* Row 0 - Number row */
+            /* Row 0 - Partial number row (keys 2,3 and 8,9) */
             RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4) RC(0,5)    RC(0,6) RC(0,7) RC(0,8) RC(0,9) RC(0,10) RC(0,11)
-            /* Row 1 - Upper alpha */
+            /* Row 1 - Numbers + upper alpha */
             RC(1,0) RC(1,1) RC(1,2) RC(1,3) RC(1,4) RC(1,5)    RC(1,6) RC(1,7) RC(1,8) RC(1,9) RC(1,10) RC(1,11)
-            /* Row 2 - Home row */
+            /* Row 2 - Upper alpha row */
             RC(2,0) RC(2,1) RC(2,2) RC(2,3) RC(2,4) RC(2,5)    RC(2,6) RC(2,7) RC(2,8) RC(2,9) RC(2,10) RC(2,11)
-            /* Row 3 - Lower alpha */
+            /* Row 3 - Home row */
             RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4) RC(3,5)    RC(3,6) RC(3,7) RC(3,8) RC(3,9) RC(3,10) RC(3,11)
-            /* Row 4 - Bottom row */
+            /* Row 4 - Lower alpha + brackets */
             RC(4,0) RC(4,1) RC(4,2) RC(4,3) RC(4,4) RC(4,5)    RC(4,6) RC(4,7) RC(4,8) RC(4,9) RC(4,10) RC(4,11)
             /* Row 5 - Thumb cluster row 1 */
             RC(5,0) RC(5,1) RC(5,2) RC(5,3) RC(5,4) RC(5,5)    RC(5,6) RC(5,7) RC(5,8) RC(5,9) RC(5,10) RC(5,11)
@@ -123,3 +146,34 @@
         zmk,matrix-transform = &default_transform;  /* Use default_transform for mapping */
     };
 };
+
+/* ═══════════════════════════════════════════════════════════════════════════════════════════
+ *                                    CONFIGURATION NOTES
+ * ═══════════════════════════════════════════════════════════════════════════════════════════
+ *
+ * PIN SELECTION GUIDELINES:
+ * 
+ * 1. Reserved Pins on nice!nano v2:
+ *    - P0.04: Battery voltage monitoring (avoid)
+ *    - P0.05: Often used for I2C (avoid if using I2C devices)
+ *    - P0.07: Often used for I2C (avoid if using I2C devices)
+ *    - P0.26-P0.27: Often used for external crystal (check your board)
+ *
+ * 2. Good Practice:
+ *    - Use consecutive pins when possible for cleaner routing
+ *    - Avoid pins with special functions unless needed
+ *    - Test continuity between chosen pins and physical switches
+ *    - Document any pin changes in version control
+ *
+ * 3. Debugging Matrix Issues:
+ *    - Enable CONFIG_ZMK_USB_LOGGING in your config
+ *    - Use multimeter to verify diode orientation
+ *    - Check for shorts between adjacent pins
+ *    - Verify pull-up/pull-down resistor configuration matches diode direction
+ *
+ * COLUMN PIN CONFIGURATION:
+ * Column pins must be defined in the left/right overlay files:
+ * - nyx_left.overlay: Define col-gpios for columns 0-5
+ * - nyx_right.overlay: Define col-gpios for columns 6-11
+ *
+ * ═══════════════════════════════════════════════════════════════════════════════════════════ */

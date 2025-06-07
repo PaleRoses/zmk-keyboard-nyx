@@ -14,11 +14,11 @@
  * - Reserved positions (using &none) for future expansion
  *
  * Physical Layout Overview:
- * ┌─────────────────────────────────────────┐         ┌─────────────────────────────────────────┐
- * │          LEFT HAND (42 keys)            │         │          RIGHT HAND (42 keys)           │
- * │     6 columns × 7 rows                  │         │     6 columns × 7 rows                  │
- * │     Columns 0-5 in matrix               │         │     Columns 6-11 in matrix              │
- * └─────────────────────────────────────────┘         └─────────────────────────────────────────┘
+ * ╔═══════════════════════════════════════════╗         ╔═══════════════════════════════════════════╗
+ * ║          LEFT HAND (42 keys)              ║         ║          RIGHT HAND (42 keys)             ║
+ * ║     6 columns × 7 rows                    ║         ║     6 columns × 7 rows                    ║
+ * ║     Columns 0-5 in matrix                 ║         ║     Columns 6-11 in matrix                ║
+ * ╚═══════════════════════════════════════════╝         ╚═══════════════════════════════════════════╝
  */
 
 #include <behaviors.dtsi>
@@ -59,37 +59,40 @@
 
         /* Layer 0: Default (Base) Layer
          * =============================
-         * Custom alphabetic layout with numbers on top row
+         * Custom alphabetic layout with modified number row
          * 
-         * ┌─────┬─────┬─────┬─────┬─────┬─────┐         ┌─────┬─────┬─────┬─────┬─────┬─────┐
-         * │ ESC │  1  │  2  │  3  │  4  │  5  │         │  6  │  7  │  8  │  9  │  0  │  =  │
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │ TAB │  X  │  F  │  L  │  K  │  Z  │         │  P  │  G  │  O  │  U  │  /  │  ,  │
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │  -  │  N  │  S  │  H  │  T  │  M  │         │  Y  │  C  │  A  │  E  │  I  │  \  │
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │CTRL │  B  │  V  │  J  │  D  │  Q  │         │  '  │  W  │  ,  │  .  │Home │ End │
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │  ·  │  ·  │  [  │  ]  │  ·  │  ·  │         │  ·  │  ·  │  ;  │ Alt │  ·  │  ·  │
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │  ·  │  ·  │  ·  │Enter│  R  │Shift│         │Shift│Space│ Del │  ·  │  ·  │  ·  │
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │  ·  │  ·  │  ·  │ FN  │ GUI │ NAV │         │ NAV │ GUI │ FN  │  ·  │  ·  │  ·  │
-         * └─────┴─────┴─────┴─────┴─────┴─────┘         └─────┴─────┴─────┴─────┴─────┴─────┘
+         *        COL0   COL1   COL2   COL3   COL4   COL5           COL6   COL7   COL8   COL9   COL10  COL11
+         *      ╔══════╤══════╤══════╤══════╤══════╤══════╗       ╔══════╤══════╤══════╤══════╤══════╤══════╗
+         * ROW0 ║  ·   │  ·   │  2   │  3   │  ·   │  ·   ║       ║  ·   │  ·   │  8   │  9   │  ·   │  ·   ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW1 ║ ESC  │  1   │  F   │  L   │  4   │  5   ║       ║  6   │  7   │  O   │  U   │  0   │  =   ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW2 ║ TAB  │  X   │  S   │  H   │  K   │  Z   ║       ║  P   │  G   │  A   │  E   │  /   │  ,   ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW3 ║  -   │  N   │  V   │  J   │  T   │  M   ║       ║  Y   │  C   │  ,   │  .   │  I   │  \   ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW4 ║ CTRL │  B   │  [   │  ]   │  D   │  Q   ║       ║  '   │  W   │  ;   │ Alt  │ Home │ End  ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW5 ║  ·   │  ·   │  ·   │Enter │  R   │Shift ║       ║Shift │Space │ Del  │  ·   │  ·   │  ·   ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW6 ║  ·   │  ·   │  ·   │ FN   │ GUI  │ NAV  ║       ║ NAV  │ GUI  │ FN   │  ·   │  ·   │  ·   ║
+         *      ╚══════╧══════╧══════╧══════╧══════╧══════╝       ╚══════╧══════╧══════╧══════╧══════╧══════╝
+         *
+         * Legend: · = none (no key binding)
          */
         default_layer {
             label = "BASE";
             bindings = <
-                /* Row 0 - Numbers */
-                &kp ESC    &kp N1    &kp N2      &kp N3      &kp N4     &kp N5          &kp N6         &kp N7      &kp N8       &kp N9      &kp N0       &kp EQUAL
-                /* Row 1 - Upper Alpha */
-                &kp TAB    &kp X     &kp F       &kp L       &kp K      &kp Z           &kp P          &kp G       &kp O        &kp U       &kp SLASH    &kp COMMA
-                /* Row 2 - Home Row */
-                &kp MINUS  &kp N     &kp S       &kp H       &kp T      &kp M           &kp Y          &kp C       &kp A        &kp E       &kp I        &kp BACKSLASH
-                /* Row 3 - Lower Alpha */
-                &kp LCTRL  &kp B     &kp V       &kp J       &kp D      &kp Q           &kp APOSTROPHE &kp W       &kp COMMA    &kp DOT     &kp HOME     &kp END
-                /* Row 4 - Bottom Row */
-                &none      &none     &kp LBKT    &kp RBKT    &none      &none           &none          &none       &kp SEMI     &kp LALT    &none        &none
+                /* Row 0 - Partial Numbers */
+                &none      &none     &kp N2      &kp N3      &none      &none           &none          &none       &kp N8       &kp N9      &none        &none
+                /* Row 1 - Remaining Numbers + Upper Alpha */
+                &kp ESC    &kp N1    &kp F       &kp L       &kp N4     &kp N5          &kp N6         &kp N7      &kp O        &kp U       &kp N0       &kp EQUAL
+                /* Row 2 - Upper Alpha */
+                &kp TAB    &kp X     &kp S       &kp H       &kp K      &kp Z           &kp P          &kp G       &kp A        &kp E       &kp SLASH    &kp COMMA
+                /* Row 3 - Home Row */
+                &kp MINUS  &kp N     &kp V       &kp J       &kp T      &kp M           &kp Y          &kp C       &kp COMMA    &kp DOT     &kp I        &kp BACKSLASH
+                /* Row 4 - Lower Alpha with Brackets */
+                &kp LCTRL  &kp B     &kp LBKT    &kp RBKT    &kp D      &kp Q           &kp APOSTROPHE &kp W       &kp SEMI     &kp LALT    &kp HOME     &kp END
                 /* Row 5 - Thumb Row 1 */
                 &none      &none     &none       &kp ENTER   &kp R      &kp LSHIFT      &kp RSHIFT     &kp SPACE   &kp DELETE   &none       &none        &none
                 /* Row 6 - Thumb Row 2 */
@@ -101,37 +104,38 @@
          * =======================
          * Function keys, media controls, and additional symbols
          * 
-         * ┌─────┬─────┬─────┬─────┬─────┬─────┐         ┌─────┬─────┬─────┬─────┬─────┬─────┐
-         * │  `  │ F1  │ F2  │ F3  │ F4  │ F5  │         │ F6  │ F7  │ F8  │ F9  │ F10 │ F11 │
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │ ___ │ XXX │ XXX │ XXX │ XXX │ XXX │         │PgUp │ XXX │ XXX │ XXX │ XXX │ F12 │
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │ ___ │ XXX │ XXX │ XXX │ XXX │ XXX │         │PgDn │ XXX │ XXX │ XXX │ XXX │PrtSc│
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │ ___ │ XXX │ XXX │ XXX │ XXX │ XXX │         │ XXX │ XXX │ XXX │ XXX │ XXX │Pause│
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │         │ XXX │ XXX │ XXX │ ___ │ XXX │ XXX │
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │ XXX │ XXX │ XXX │ ___ │ XXX │ ___ │         │ ___ │ ___ │ ___ │ XXX │ XXX │ XXX │
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │ XXX │ XXX │ XXX │ ___ │ ___ │ XXX │         │ XXX │ ___ │ ___ │ XXX │ XXX │ XXX │
-         * └─────┴─────┴─────┴─────┴─────┴─────┘         └─────┴─────┴─────┴─────┴─────┴─────┘
+         *        COL0   COL1   COL2   COL3   COL4   COL5           COL6   COL7   COL8   COL9   COL10  COL11
+         *      ╔══════╤══════╤══════╤══════╤══════╤══════╗       ╔══════╤══════╤══════╤══════╤══════╤══════╗
+         * ROW0 ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║       ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW1 ║  `   │ F1   │ F2   │ F3   │ F4   │ F5   ║       ║ F6   │ F7   │ F8   │ F9   │ F10  │ F11  ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW2 ║ ___  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║       ║ PgUp │ XXX  │ XXX  │ XXX  │ XXX  │ F12  ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW3 ║ ___  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║       ║ PgDn │ XXX  │ XXX  │ XXX  │ XXX  │PrtSc ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW4 ║ ___  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║       ║ XXX  │ XXX  │ XXX  │ ___  │ XXX  │Pause ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW5 ║ XXX  │ XXX  │ XXX  │ ___  │ XXX  │ ___  ║       ║ ___  │ ___  │ ___  │ XXX  │ XXX  │ XXX  ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW6 ║ XXX  │ XXX  │ XXX  │ ___  │ ___  │ XXX  ║       ║ XXX  │ ___  │ ___  │ XXX  │ XXX  │ XXX  ║
+         *      ╚══════╧══════╧══════╧══════╧══════╧══════╝       ╚══════╧══════╧══════╧══════╧══════╧══════╝
          * 
          * Legend: ___ = transparent (pass-through), XXX = blocked
          */
         function_layer {
             label = "FN";
             bindings = <
-                /* Row 0 - Function Keys */
+                /* Row 0 */
+                &none      &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
+                /* Row 1 - Function Keys */
                 &kp GRAVE  &kp F1    &kp F2      &kp F3      &kp F4     &kp F5          &kp F6         &kp F7      &kp F8       &kp F9      &kp F10      &kp F11
-                /* Row 1 */
-                &trans     &none     &none       &none       &none      &none           &kp PG_UP      &none       &none        &none       &none        &kp F12
                 /* Row 2 */
-                &trans     &none     &none       &none       &none      &none           &kp PG_DN      &none       &none        &none       &none        &kp PSCRN
+                &trans     &none     &none       &none       &none      &none           &kp PG_UP      &none       &none        &none       &none        &kp F12
                 /* Row 3 */
-                &trans     &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &kp PAUSE_BREAK
+                &trans     &none     &none       &none       &none      &none           &kp PG_DN      &none       &none        &none       &none        &kp PSCRN
                 /* Row 4 */
-                &none      &none     &none       &none       &none      &none           &none          &none       &none        &trans      &none        &none
+                &trans     &none     &none       &none       &none      &none           &none          &none       &none        &trans      &none        &kp PAUSE_BREAK
                 /* Row 5 */
                 &none      &none     &none       &trans      &none      &trans          &trans         &trans      &trans       &none       &none        &none
                 /* Row 6 */
@@ -143,35 +147,36 @@
          * =========================
          * Arrow keys, navigation cluster, and cursor controls
          * 
-         * ┌─────┬─────┬─────┬─────┬─────┬─────┐         ┌─────┬─────┬─────┬─────┬─────┬─────┐
-         * │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │         │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │ XXX │ XXX │ XXX │  ↑  │ XXX │ XXX │         │Home │PgDn │PgUp │ End │ XXX │ XXX │
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │ XXX │ XXX │  ←  │  ↓  │  →  │ XXX │         │  ←  │  ↓  │  ↑  │  →  │ XXX │ XXX │
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │ ___ │ XXX │ XXX │ XXX │ XXX │ XXX │         │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │         │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │ XXX │ XXX │ XXX │ ___ │ XXX │ ___ │         │ ___ │ ___ │ ___ │ XXX │ XXX │ XXX │
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │ XXX │ XXX │ XXX │ XXX │ ___ │ ___ │         │ ___ │ ___ │ XXX │ XXX │ XXX │ XXX │
-         * └─────┴─────┴─────┴─────┴─────┴─────┘         └─────┴─────┴─────┴─────┴─────┴─────┘
+         *        COL0   COL1   COL2   COL3   COL4   COL5           COL6   COL7   COL8   COL9   COL10  COL11
+         *      ╔══════╤══════╤══════╤══════╤══════╤══════╗       ╔══════╤══════╤══════╤══════╤══════╤══════╗
+         * ROW0 ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║       ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW1 ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║       ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW2 ║ XXX  │ XXX  │ XXX  │  ↑   │ XXX  │ XXX  ║       ║ Home │ PgDn │ PgUp │ End  │ XXX  │ XXX  ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW3 ║ XXX  │ XXX  │  ←   │  ↓   │  →   │ XXX  ║       ║  ←   │  ↓   │  ↑   │  →   │ XXX  │ XXX  ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW4 ║ ___  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║       ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW5 ║ XXX  │ XXX  │ XXX  │ ___  │ XXX  │ ___  ║       ║ ___  │ ___  │ ___  │ XXX  │ XXX  │ XXX  ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW6 ║ XXX  │ XXX  │ XXX  │ XXX  │ ___  │ ___  ║       ║ ___  │ ___  │ XXX  │ XXX  │ XXX  │ XXX  ║
+         *      ╚══════╧══════╧══════╧══════╧══════╧══════╝       ╚══════╧══════╧══════╧══════╧══════╧══════╝
          */
         navigation_layer {
             label = "NAV";
             bindings = <
                 /* Row 0 */
                 &none      &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
-                /* Row 1 - Navigation */
-                &none      &none     &none       &kp UP      &none      &none           &kp HOME       &kp PG_DN   &kp PG_UP    &kp END     &none        &none
-                /* Row 2 - Arrow Keys */
-                &none      &none     &kp LEFT    &kp DOWN    &kp RIGHT  &none           &kp LEFT       &kp DOWN    &kp UP       &kp RIGHT   &none        &none
-                /* Row 3 */
-                &trans     &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
-                /* Row 4 */
+                /* Row 1 */
                 &none      &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
+                /* Row 2 - Navigation */
+                &none      &none     &none       &kp UP      &none      &none           &kp HOME       &kp PG_DN   &kp PG_UP    &kp END     &none        &none
+                /* Row 3 - Arrow Keys */
+                &none      &none     &kp LEFT    &kp DOWN    &kp RIGHT  &none           &kp LEFT       &kp DOWN    &kp UP       &kp RIGHT   &none        &none
+                /* Row 4 */
+                &trans     &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
                 /* Row 5 */
                 &none      &none     &none       &trans      &none      &trans          &trans         &trans      &trans       &none       &none        &none
                 /* Row 6 */
@@ -184,21 +189,22 @@
          * Bluetooth controls, output selection, and system functions
          * Activated by holding both FN and NAV layers simultaneously
          * 
-         * ┌─────┬─────┬─────┬─────┬─────┬─────┐         ┌─────┬─────┬─────┬─────┬─────┬─────┐
-         * │BTCLR│ BT0 │ BT1 │ BT2 │ BT3 │ BT4 │         │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │         │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │         │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │ ___ │ XXX │ XXX │ XXX │ XXX │ XXX │         │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │         │ XXX │ XXX │ XXX │ XXX │ XXX │ XXX │
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │ XXX │ XXX │ XXX │ ___ │ XXX │ ___ │         │ ___ │ ___ │ ___ │ XXX │ XXX │ XXX │
-         * ├─────┼─────┼─────┼─────┼─────┼─────┤         ├─────┼─────┼─────┼─────┼─────┼─────┤
-         * │ XXX │ XXX │ XXX │ ___ │ ___ │ ___ │         │ ___ │ ___ │ ___ │ XXX │ XXX │ XXX │
-         * └─────┴─────┴─────┴─────┴─────┴─────┘         └─────┴─────┴─────┴─────┴─────┴─────┘
+         *        COL0   COL1   COL2   COL3   COL4   COL5           COL6   COL7   COL8   COL9   COL10  COL11
+         *      ╔══════╤══════╤══════╤══════╤══════╤══════╗       ╔══════╤══════╤══════╤══════╤══════╤══════╗
+         * ROW0 ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║       ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW1 ║BTCLR │ BT0  │ BT1  │ BT2  │ BT3  │ BT4  ║       ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW2 ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║       ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW3 ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║       ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW4 ║ ___  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║       ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW5 ║ XXX  │ XXX  │ XXX  │ ___  │ XXX  │ ___  ║       ║ ___  │ ___  │ ___  │ XXX  │ XXX  │ XXX  ║
+         *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
+         * ROW6 ║ XXX  │ XXX  │ XXX  │ ___  │ ___  │ ___  ║       ║ ___  │ ___  │ ___  │ XXX  │ XXX  │ XXX  ║
+         *      ╚══════╧══════╧══════╧══════╧══════╧══════╝       ╚══════╧══════╧══════╧══════╧══════╧══════╝
          * 
          * BT0-BT4: Bluetooth profiles for connecting multiple devices
          * BTCLR: Clear current bluetooth profile
@@ -206,16 +212,16 @@
         system_layer {
             label = "SYSTEM";
             bindings = <
-                /* Row 0 - Bluetooth Controls */
-                &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4    &none          &none       &none        &none       &none        &none
-                /* Row 1 */
+                /* Row 0 */
                 &none      &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
+                /* Row 1 - Bluetooth Controls */
+                &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4    &none          &none       &none        &none       &none        &none
                 /* Row 2 */
                 &none      &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
                 /* Row 3 */
-                &trans     &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
-                /* Row 4 */
                 &none      &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
+                /* Row 4 */
+                &trans     &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
                 /* Row 5 */
                 &none      &none     &none       &trans      &none      &trans          &trans         &trans      &trans       &none       &none        &none
                 /* Row 6 */
