@@ -2,22 +2,23 @@
 #include "nyx.dtsi"
 
 &kscan0 {
-    /* 6 columns, active‑high */
-    col-gpios = <&gpio0  2 GPIO_ACTIVE_HIGH>,   /* C0  P0.02 */
-                <&gpio0  3 GPIO_ACTIVE_HIGH>,   /* C1  P0.03 */
-                <&gpio0 28 GPIO_ACTIVE_HIGH>,   /* C2  P0.28 */
-                <&gpio0 29 GPIO_ACTIVE_HIGH>,   /* C3  P0.29 */
-                <&gpio0 31 GPIO_ACTIVE_HIGH>,   /* C4  P0.31 */
-                <&gpio1  3 GPIO_ACTIVE_HIGH>;   /* C5  P1.03 */
-    col-offset = <0>;                           /* logical columns 0‑5 */
+    /* Columns 0‑5 */
+    col-gpios = <&gpio0  2 GPIO_ACTIVE_HIGH>,   /* C0  P0.02 */
+                <&gpio0  3 GPIO_ACTIVE_HIGH>,   /* C1  P0.03 */
+                <&gpio0 28 GPIO_ACTIVE_HIGH>,   /* C2  P0.28 */
+                <&gpio0 29 GPIO_ACTIVE_HIGH>,   /* C3  P0.29 */
+                <&gpio0 31 GPIO_ACTIVE_HIGH>,   /* C4  P0.31 */
+                <&gpio1  3 GPIO_ACTIVE_HIGH>;   /* C5  P1.03 */
+
+    col-offset = <0>;
 };
 
 /* Central role & optional status LED */
-&zmk_board {
+ / {
     zmk,split-role = "central";
 
     status_led: status_led {
-        gpios = <&gpio1 6 GPIO_ACTIVE_LOW>;     /* P1.06 — blue LED on nice!nano */
+        gpios = <&gpio1 6 GPIO_ACTIVE_LOW>;   /* nice!nano blue LED */
         label = "STAT_LED";
     };
 };
