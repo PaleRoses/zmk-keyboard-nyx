@@ -1,5 +1,0 @@
-if SHIELD_NYX_RIGHT
-# USB/BLE advertising name (≤15 chars)
-config ZMK_KEYBOARD_NAME
-    default "Nyx R"
-endif
