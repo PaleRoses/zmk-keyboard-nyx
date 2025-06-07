@@ -1,6 +1,6 @@
-# This file generates the GitHub Actions matrix
+# GitHub Actions build matrix for Nyx
 include:
   - board: nice_nano_v2
     shield: nyx_left
-  # - board: nice_nano_v2
-  #   shield: nyx_right  # Uncomment when right half is ready
+  - board: nice_nano_v2
+    shield: nyx_right
