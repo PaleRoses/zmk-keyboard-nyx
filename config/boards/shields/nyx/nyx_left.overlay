@@ -9,7 +9,7 @@
  *
  * Hardware:  nice!nano v2 (nRF52840)
  * Role:      Central (hosts BLE connection, processes keymap)
- * Matrix:    Columns 0‑5 (of 0‑11 total)
+ * Matrix:    Columns 0‑5 (of 0‑11 total)
  *
  * Column‑to‑pin map (left half, **updated**):
  *   C0 → P0.08   C1 → P0.17   C2 → P0.20
@@ -25,12 +25,12 @@
  * Row pins are inherited from nyx.dtsi.
  */
 &kscan0 {
-    col-gpios = <&gpio0  8 GPIO_ACTIVE_HIGH>,   /* C0: P0.08 */
-                <&gpio0 17 GPIO_ACTIVE_HIGH>,   /* C1: P0.17 */
-                <&gpio0 20 GPIO_ACTIVE_HIGH>,   /* C2: P0.20 */
-                <&gpio0 22 GPIO_ACTIVE_HIGH>,   /* C3: P0.22 */
-                <&gpio0 24 GPIO_ACTIVE_HIGH>,   /* C4: P0.24 */
-                <&gpio1  0 GPIO_ACTIVE_HIGH>;   /* C5: P1.00 */
+    col-gpios = <&gpio0  8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,   /* C0: P0.08 */
+                <&gpio0 17 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,   /* C1: P0.17 */
+                <&gpio0 20 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,   /* C2: P0.20 */
+                <&gpio0 22 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,   /* C3: P0.22 */
+                <&gpio0 24 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,   /* C4: P0.24 */
+                <&gpio1  0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;   /* C5: P1.00 */
 };
 
 /* ──────────────────────────────
@@ -64,7 +64,7 @@
         compatible   = "zmk,battery-voltage-divider";
         label        = "BATTERY";
         io-channels  = <&adc 2>;      /* AIN2 */
-        output-ohms  = <2000000>;     /* 2 MΩ */
-        full-ohms    = <2806000>;     /* 2 M + 806 kΩ */
+        output-ohms  = <2000000>;     /* 2 MΩ */
+        full-ohms    = <2806000>;     /* 2 M + 806 kΩ */
     };
 };
