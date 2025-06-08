@@ -1,4 +1,4 @@
-# ---------- Defaults for the LEFT / central half ----------
+# Left half (central)
 if SHIELD_NYX_LEFT
 config ZMK_KEYBOARD_NAME
     string
@@ -8,24 +8,23 @@ config ZMK_SPLIT_ROLE_CENTRAL
     bool
     default y
 
-# Shorter advertise timeout = faster reconnection
 config ZMK_BLE_ADVERTISING_TIMEOUT
     int
-    default 30
+    default 300
 
 config ZMK_SLEEP
     bool
     default y
 endif
 
-# ---------- Defaults for the RIGHT / peripheral half ----------
+# Right half (peripheral)
 if SHIELD_NYX_RIGHT
 config ZMK_KEYBOARD_NAME
     string
     default "Nyx"
 endif
 
-# ---------- Shared split settings ----------
+# Split keyboard support
 if SHIELD_NYX_LEFT || SHIELD_NYX_RIGHT
 config ZMK_SPLIT
     bool
