@@ -68,13 +68,13 @@
          * │ R6  │  P1.11   │ gpio1, 11   │ Thumb cluster row 2          │
          * └─────┴──────────┴─────────────┴──────────────────────────────┘
          */
-        row-gpios = <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* R0: P0.11 - Top row (partial numbers) */
-            <&gpio0 31 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* R1: P0.31 - Numbers + upper alpha */
-            <&gpio0 29 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* R2: P0.29 - Upper alpha row */
-            <&gpio0  2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* R3: P0.02 - Home row */
-            <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* R4: P1.15 - Lower alpha + brackets */
-            <&gpio1 13 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* R5: P1.13 - Thumb cluster row 1 */
-            <&gpio1 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;  /* R6: P1.11 - Thumb cluster row 2 */
+        row-gpios = <&gpio0 11 GPIO_ACTIVE_HIGH>,  /* R0: P0.11 - Top row (partial numbers) */
+            <&gpio0 31 GPIO_ACTIVE_HIGH>,  /* R1: P0.31 - Numbers + upper alpha */
+            <&gpio0 29 GPIO_ACTIVE_HIGH>,  /* R2: P0.29 - Upper alpha row */
+            <&gpio0  2 GPIO_ACTIVE_HIGH>,  /* R3: P0.02 - Home row */
+            <&gpio1 15 GPIO_ACTIVE_HIGH>,  /* R4: P1.15 - Lower alpha + brackets */
+            <&gpio1 13 GPIO_ACTIVE_HIGH>,  /* R5: P1.13 - Thumb cluster row 1 */
+            <&gpio1 11 GPIO_ACTIVE_HIGH>;  /* R6: P1.11 - Thumb cluster row 2 */
 
         /* Column pins will be defined in the overlay files for each half
          * Left half: columns 0-5
