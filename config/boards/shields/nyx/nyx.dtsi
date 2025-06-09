@@ -8,19 +8,20 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
-    kscan0: kscan {
-        compatible = "zmk,kscan-gpio-matrix";
-        label = "KSCAN";
-        diode-direction = "row2col";
-        
-        /* Rows are outputs for row2col configuration */
-        row-gpios = <&gpio0 11 GPIO_ACTIVE_HIGH>,  /* R0: P0.11 (D7) */
-                    <&gpio0 31 GPIO_ACTIVE_HIGH>,  /* R1: P0.31 (D21) */
-                    <&gpio0 29 GPIO_ACTIVE_HIGH>,  /* R2: P0.29 (D20) */
-                    <&gpio0  2 GPIO_ACTIVE_HIGH>,  /* R3: P0.02 (D19) */
-                    <&gpio1 15 GPIO_ACTIVE_HIGH>,  /* R4: P1.15 (D18) */
-                    <&gpio1 13 GPIO_ACTIVE_HIGH>,  /* R5: P1.13 (D15) */
-                    <&gpio1 11 GPIO_ACTIVE_HIGH>;  /* R6: P1.11 (D14) */
+    &kscan0 {
+    compatible = "zmk,kscan-gpio-matrix";
+    label = "KSCAN";
+    diode-direction = "col2row";  /* Changed from "row2col" */
+    
+    /* Rows are now inputs for col2row - add pull-downs here */
+    row-gpios = <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* R0: P0.11 (D7) */
+                <&gpio0 31 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* R1: P0.31 (D21) */
+                <&gpio0 29 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* R2: P0.29 (D20) */
+                <&gpio0  2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* R3: P0.02 (D19) */
+                <&gpio1 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* R4: P1.15 (D18) */
+                <&gpio1 13 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>,  /* R5: P1.13 (D15) */
+                <&gpio1 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;  /* R6: P1.11 (D14) */
+    
         
         /* Column pins defined in left/right overlay files */
     };
