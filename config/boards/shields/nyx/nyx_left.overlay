@@ -1,7 +1,7 @@
 /*
- * Nyx Split Keyboard - Right Half Overlay
- * Role: Peripheral (sends key data to central)
- * Matrix: Columns 6‑11 (of 0‑11 total)
+ * Nyx Split Keyboard - Left Half Overlay
+ * Role: Central (receives key data from peripheral)
+ * Matrix: Columns 0‑5 (of 0‑11 total)
  */
 
 #include "nyx.dtsi"
