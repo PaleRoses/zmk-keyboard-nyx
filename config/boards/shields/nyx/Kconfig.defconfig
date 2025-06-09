@@ -1,3 +1,7 @@
+# Nyx Split Keyboard Configuration Defaults
+# This file defines configuration settings applied when shields are active
+
+# Configuration for left half (central)
 if SHIELD_NYX_LEFT
 
 config ZMK_KEYBOARD_NAME
@@ -8,6 +12,7 @@ config ZMK_SPLIT_ROLE_CENTRAL
 
 endif
 
+# Configuration for right half (peripheral)
 if SHIELD_NYX_RIGHT
 
 config ZMK_KEYBOARD_NAME
@@ -15,6 +20,7 @@ config ZMK_KEYBOARD_NAME
 
 endif
 
+# Configuration for both halves
 if SHIELD_NYX_LEFT || SHIELD_NYX_RIGHT
 
 config ZMK_SPLIT
