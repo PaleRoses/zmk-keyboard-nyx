@@ -1,17 +1,23 @@
-# Left half (central)
 if SHIELD_NYX_LEFT
 
 config ZMK_KEYBOARD_NAME
-    string
+    default "Nyx"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+endif
+
+if SHIELD_NYX_RIGHT
+
+config ZMK_KEYBOARD_NAME
     default "Nyx"
 
 endif
 
-# Right half (peripheral)
-if SHIELD_NYX_RIGHT
+if SHIELD_NYX_LEFT || SHIELD_NYX_RIGHT
 
-config ZMK_KEYBOARD_NAME
-    string
-    default "Nyx"
+config ZMK_SPLIT
+    default y
 
 endif

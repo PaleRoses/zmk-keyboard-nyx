@@ -1,13 +1,8 @@
-# Central (left) half
-config SHIELD_NYX_LEFT
-    bool "Nyx split keyboard, left half"
-    def_bool $(shields_list_contains,nyx_left)
-    select ZMK_SPLIT
-    select ZMK_SPLIT_BLE_ROLE_CENTRAL
+# Nyx Split Keyboard Shield Configuration
+# This file defines shield detection flags only
 
-# Peripheral (right) half
+config SHIELD_NYX_LEFT
+    def_bool $(shields_list_contains,nyx_left)
+
 config SHIELD_NYX_RIGHT
-    bool "Nyx split keyboard, right half"
     def_bool $(shields_list_contains,nyx_right)
-    select ZMK_SPLIT
-    select ZMK_SPLIT_BLE_ROLE_PERIPHERAL
