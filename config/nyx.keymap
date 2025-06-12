@@ -94,9 +94,9 @@
                 /* Row 4 - Lower Alpha with Brackets */
                 &kp LCTRL  &kp B     &kp LBKT    &kp RBKT    &kp D      &kp Q           &kp APOSTROPHE &kp W       &kp SEMI     &kp LALT    &kp HOME     &kp END
                 /* Row 5 - Thumb Row 1 */
-                &none      &none     &none       &kp ENTER   &kp R      &kp LSHIFT      &kp RSHIFT     &kp SPACE   &kp DELETE   &none       &none        &none
+                &none      &none     &none       &kp ENTER   &kp R      &kp LSHIFT      &kp RSHIFT     &kp SPACE   &kp BACKSPACE   &none       &none        &none
                 /* Row 6 - Thumb Row 2 */
-                &none      &none     &none       &mo FN      &kp LGUI   &mo NAV         &mo NAV        &kp RGUI    &mo FN       &none       &none        &none
+                &none      &none     &none       &mo FN      &kp LGUI   &mo NAV         &mo NAV        &kp LGUI    &mo FN       &none       &none        &none
             >;
         };
 
@@ -155,9 +155,9 @@
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
          * ROW2 ║ XXX  │ XXX  │   ←  │  ↑   │ XXX  │ XXX  ║       ║ Home │ PgDn │ PgUp │ End  │ XXX  │ XXX  ║
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
-         * ROW3 ║ XXX  │ XXX  │ XXX  │  ↓   │  →   │ XXX  ║       ║  ←   │  ↓   │  ↑   │  →   │ XXX  │ XXX  ║
+         * ROW3 ║ XXX  │ XXX  │ HOME │  ↓   │  →   │ XXX  ║       ║  ←   │  ↓   │  ↑   │  →   │ XXX  │ XXX  ║
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
-         * ROW4 ║ ___  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║       ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║
+         * ROW4 ║ ___  │ XXX  │ XXX  │ END  │ XXX  │ XXX  ║       ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
          * ROW5 ║ XXX  │ XXX  │ XXX  │ ___  │ XXX  │ ___  ║       ║ ___  │ ___  │ ___  │ XXX  │ XXX  │ XXX  ║
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
@@ -170,13 +170,13 @@
                 /* Row 0 */
                 &none      &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
                 /* Row 1 */
-                &none      &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
+                &none      &none     &none       &none       &none      &none           &none           &kp N8       &none        &none       &none        &none
                 /* Row 2 - Navigation */
                 &none      &none     &kp LEFT       &kp UP      &none      &none           &kp HOME       &kp PG_DN   &kp PG_UP    &kp END     &none        &none
                 /* Row 3 - Arrow Keys */
-                &none      &none     &none    &kp DOWN    &kp RIGHT  &none           &kp LEFT       &kp DOWN    &kp UP       &kp RIGHT   &none        &none
+                &none      &none     &kp HOME    &kp DOWN    &kp RIGHT  &none           &kp LEFT       &kp DOWN    &kp UP       &kp RIGHT   &none        &none
                 /* Row 4 */
-                &trans     &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
+                &trans     &none     &none       &kp END       &none      &none           &none          &none       &none        &none       &none        &none
                 /* Row 5 */
                 &none      &none     &none       &trans      &none      &trans          &trans         &trans      &trans       &none       &none        &none
                 /* Row 6 */
