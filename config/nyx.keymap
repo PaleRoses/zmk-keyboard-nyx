@@ -67,7 +67,7 @@
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
          * ROW1 ║ ESC  │  1   │  F   │  L   │  4   │  5   ║       ║  6   │  7   │  O   │  U   │  0   │  =   ║
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
-         * ROW2 ║ TAB  │  B   │  S   │  H   │  K   │  Q   ║       ║  P   │  G   │  A   │  E   │  /   │  '   ║
+         * ROW2 ║ TAB  │  B   │  S   │  H   │  K   │  Q   ║       ║  P   │  G   │  A   │  E   │  /   │  `   ║
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
          * ROW3 ║  -   │  N   │  V   │  J   │  T   │  M   ║       ║  Y   │  C   │  ,   │  .   │  I   │  \   ║
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
@@ -96,7 +96,7 @@
                 /* Row 5 - Thumb Row 1 */
                 &none      &none     &none       &kp ENTER   &kp R      &kp LSHIFT      &kp LSHIFT     &kp SPACE   &kp BACKSPACE   &none       &none        &none
                 /* Row 6 - Thumb Row 2 */
-                &none      &none     &none       &mo FN      &kp LGUI   &mo NAV         &mo NAV        &kp RGUI    &mo FN       &none       &none        &none
+                &none      &none     &none       &mo FN      &kp LGUI   &mo NAV         &none       &none        &none          &mo NAV        &kp RGUI    &mo FN
             >;
         };
 
@@ -155,9 +155,9 @@
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
          * ROW2 ║ XXX  │ XXX  │ XXX  │  ↑   │ XXX  │ XXX  ║       ║ Home │ PgDn │ PgUp │ End  │ XXX  │ XXX  ║
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
-         * ROW3 ║ XXX  │ XXX  │  ←   │  ↓   │  →   │ XXX  ║       ║  ←   │  ↓   │  ↑   │  →   │ XXX  │ XXX  ║
+         * ROW3 ║ XXX  │ XXX  │ XXX  │  ↓   │  →   │ XXX  ║       ║  ←   │  ↓   │  ↑   │  →   │ XXX  │ XXX  ║
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
-         * ROW4 ║ ___  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║       ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║
+         * ROW4 ║ ___  │ XXX  │  ←   │ XXX  │ XXX  │ XXX  ║       ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
          * ROW5 ║ XXX  │ XXX  │ XXX  │ ___  │ XXX  │ ___  ║       ║ ___  │ ___  │ ___  │ XXX  │ XXX  │ XXX  ║
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
@@ -174,9 +174,9 @@
                 /* Row 2 - Navigation */
                 &none      &none     &none       &kp UP      &none      &none           &kp HOME       &kp PG_DN   &kp PG_UP    &kp END     &none        &none
                 /* Row 3 - Arrow Keys */
-                &none      &none     &kp LEFT    &kp DOWN    &kp RIGHT  &none           &kp LEFT       &kp DOWN    &kp UP       &kp RIGHT   &none        &none
+                &none      &none     &none    &kp DOWN    &kp RIGHT  &none           &kp LEFT       &kp DOWN    &kp UP       &kp RIGHT   &none        &none
                 /* Row 4 */
-                &trans     &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
+                &trans     &none     &kp LEFT    &none       &none      &none           &none          &none       &none        &none       &none        &none
                 /* Row 5 */
                 &none      &none     &none       &trans      &none      &trans          &trans         &trans      &trans       &none       &none        &none
                 /* Row 6 */

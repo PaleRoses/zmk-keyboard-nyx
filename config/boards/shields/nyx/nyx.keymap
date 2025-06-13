@@ -67,13 +67,13 @@
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
          * ROW1 ║ ESC  │  1   │  F   │  L   │  4   │  5   ║       ║  6   │  7   │  O   │  U   │  0   │  =   ║
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
-         * ROW2 ║ TAB  │  X   │  S   │  H   │  K   │  Z   ║       ║  P   │  G   │  A   │  E   │  /   │  `   ║
+         * ROW2 ║ TAB  │  B   │  S   │  H   │  K   │  Q   ║       ║  P   │  G   │  A   │  E   │  /   │  '   ║
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
          * ROW3 ║  -   │  N   │  V   │  J   │  T   │  M   ║       ║  Y   │  C   │  ,   │  .   │  I   │  \   ║
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
-         * ROW4 ║ CTRL │  B   │  [   │  ]   │  D   │  Q   ║       ║  '   │  W   │  ;   │ Alt  │ Home │ End  ║
+         * ROW4 ║ CTRL │  X   │  [   │  ]   │  D   │  Z   ║       ║  '   │  W   │  ;   │ Alt  │ Home │ End  ║
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
-         * ROW5 ║  ·   │  ·   │  ·   │Enter │  R   │Shift ║       ║Shift │Space │ Del  │  ·   │  ·   │  ·   ║
+         * ROW5 ║  ·   │  ·   │  ·   │Enter │  R   │Shift ║       ║Shift │Space │Bkspce│  ·   │  ·   │  ·   ║
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
          * ROW6 ║  ·   │  ·   │  ·   │ FN   │ GUI  │ NAV  ║       ║ NAV  │ GUI  │ FN   │  ·   │  ·   │  ·   ║
          *      ╚══════╧══════╧══════╧══════╧══════╧══════╝       ╚══════╧══════╧══════╧══════╧══════╧══════╝
@@ -88,15 +88,15 @@
                 /* Row 1 - Remaining Numbers + Upper Alpha */
                 &kp ESC    &kp N1    &kp F       &kp L       &kp N4     &kp N5          &kp N6         &kp N7      &kp O        &kp U       &kp N0       &kp EQUAL
                 /* Row 2 - Upper Alpha */
-                &kp TAB    &kp X     &kp S       &kp H       &kp K      &kp Z           &kp P          &kp G       &kp A        &kp E       &kp SLASH    &kp GRAVE
+                &kp TAB    &kp B     &kp S       &kp H       &kp K      &kp Q           &kp P          &kp G       &kp A        &kp E       &kp SLASH    &kp GRAVE
                 /* Row 3 - Home Row */
                 &kp MINUS  &kp N     &kp V       &kp J       &kp T      &kp M           &kp Y          &kp C       &kp COMMA    &kp DOT     &kp I        &kp BACKSLASH
                 /* Row 4 - Lower Alpha with Brackets */
-                &kp LCTRL  &kp B     &kp LBKT    &kp RBKT    &kp D      &kp Q           &kp APOSTROPHE &kp W       &kp SEMI     &kp LALT    &kp HOME     &kp END
+                &kp LCTRL  &kp X     &kp LBKT    &kp RBKT    &kp D      &kp Z           &kp APOSTROPHE &kp W       &kp SEMI     &kp LALT    &kp HOME     &kp END
                 /* Row 5 - Thumb Row 1 */
-                &none      &none     &none       &kp ENTER   &kp R      &kp LSHIFT      &kp RSHIFT     &kp SPACE   &kp BACKSPACE   &none       &none        &none
+                &none      &none     &none       &kp ENTER   &kp R      &kp LSHIFT      &kp LSHIFT     &kp SPACE   &kp BACKSPACE   &none       &none        &none
                 /* Row 6 - Thumb Row 2 */
-                &none      &none     &none       &mo FN      &kp LGUI   &mo NAV         &mo NAV        &kp LGUI    &mo FN       &none       &none        &none
+                &none      &none     &none       &mo FN      &kp LGUI   &mo NAV         &mo NAV        &kp RGUI    &mo FN       &none       &none        &none
             >;
         };
 
@@ -153,11 +153,11 @@
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
          * ROW1 ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║       ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
-         * ROW2 ║ XXX  │ XXX  │   ←  │  ↑   │ XXX  │ XXX  ║       ║ Home │ PgDn │ PgUp │ End  │ XXX  │ XXX  ║
+         * ROW2 ║ XXX  │ XXX  │ XXX  │  ↑   │ XXX  │ XXX  ║       ║ Home │ PgDn │ PgUp │ End  │ XXX  │ XXX  ║
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
-         * ROW3 ║ XXX  │ XXX  │ HOME │  ↓   │  →   │ XXX  ║       ║  ←   │  ↓   │  ↑   │  →   │ XXX  │ XXX  ║
+         * ROW3 ║ XXX  │ XXX  │  ←   │  ↓   │  →   │ XXX  ║       ║  ←   │  ↓   │  ↑   │  →   │ XXX  │ XXX  ║
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
-         * ROW4 ║ ___  │ XXX  │ XXX  │ END  │ XXX  │ XXX  ║       ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║
+         * ROW4 ║ ___  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║       ║ XXX  │ XXX  │ XXX  │ XXX  │ XXX  │ XXX  ║
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
          * ROW5 ║ XXX  │ XXX  │ XXX  │ ___  │ XXX  │ ___  ║       ║ ___  │ ___  │ ___  │ XXX  │ XXX  │ XXX  ║
          *      ╟──────┼──────┼──────┼──────┼──────┼──────╢       ╟──────┼──────┼──────┼──────┼──────┼──────╢
@@ -172,11 +172,11 @@
                 /* Row 1 */
                 &none      &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
                 /* Row 2 - Navigation */
-                &none      &none     &kp LEFT       &kp UP      &none      &none           &kp HOME       &kp PG_DN   &kp PG_UP    &kp END     &none        &none
+                &none      &none     &none       &kp UP      &none      &none           &kp HOME       &kp PG_DN   &kp PG_UP    &kp END     &none        &none
                 /* Row 3 - Arrow Keys */
-                &none      &none     &kp HOME    &kp DOWN    &kp RIGHT  &none           &kp LEFT       &kp DOWN    &kp UP       &kp RIGHT   &none        &none
+                &none      &none     &kp LEFT    &kp DOWN    &kp RIGHT  &none           &kp LEFT       &kp DOWN    &kp UP       &kp RIGHT   &none        &none
                 /* Row 4 */
-                &trans     &none     &none       &kp END       &none      &none           &none          &none       &none        &none       &none        &none
+                &trans     &none     &none       &none       &none      &none           &none          &none       &none        &none       &none        &none
                 /* Row 5 */
                 &none      &none     &none       &trans      &none      &trans          &trans         &trans      &trans       &none       &none        &none
                 /* Row 6 */
